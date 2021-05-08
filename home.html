@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  <!-- Bootstrap CSS -->
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    crossorigin="anonymous"
+  />
+
+  <title>Live Datafeed</title>
+</head>
+<body>
+  <header>
+    <div class="bg-dark collapse" id="navbarHeader" style>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 col-md-7 py-4">
+            <h4 class="text-white">About</h4>
+            <p class="text-muted">
+              This whole project is reffering to our final year project. Where
+              we are sharing live feed of a camera connected to raspberry PI 4
+              where image detection is done via Yolo model and live feed is sent
+              here.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark box-shadow">
+      <div class="container d-flex justify-content-between">
+        <a href="#" class="navbar-brand d-flex align-items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="mr-2"
+          >
+            <path
+              d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
+            ></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+          <strong> Live Feed from robot</strong>
+        </a>
+        <button
+          class="navbar-toggler collapsed"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarHeader"
+          aria-controls="navbarHeader"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <!-- Navigation ends here-->
+  <!-- Button trigger modal -->
+
+  <div class="bd-example">
+    <div
+      id="carouselExampleCaptions"
+      class="carousel slide carousel-fade"
+      data-ride="carousel"
+    >
+      <ol class="carousel-indicators">
+        <li
+          data-target="#carouselExampleCaptions"
+          data-slide-to="0"
+          class="active"
+        ></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img
+            src="{{ url_for('video_feed') }}"
+            id="video_container"
+            class="d-block w-100"
+            alt="..."
+          />
+          <div class="carousel-caption d-none d-md-block">
+            <h2>Feed</h2>
+            <p></p>
+            <button class="btn btn-primary" id="btn_1" value="up">Up</button>
+            <button class="btn btn-primary" id="btn_2" value="down">
+              Down
+            </button>
+            <button class="btn btn-danger" id="btn_3" value="left">Left</button>
+            <button class="btn btn-danger" id="btn_4" value="right">
+              Right
+            </button>
+            <button class="btn btn-primary" id="btn_5" value="up">
+              Forward
+            </button>
+            <button class="btn btn-primary" id="btn_6" value="down">
+              Backward
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Corousal ending here-->
+
+  <!-- footer started-->
+
+  <footer class="container">
+    <p>Live feed from AI based robot·</p>
+  </footer>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"
+  ></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var rotate;
+      $("#btn_1").click(function (e) {
+        e.preventDefault();
+        rotate = "up";
+        $.ajax({
+          type: "POST",
+          url: "/",
+          data: {
+            data: rotate,
+          },
+        });
+      });
+
+      $("#btn_2").click(function (e) {
+        e.preventDefault();
+        rotate = "down";
+        $.ajax({
+          type: "POST",
+          url: "/",
+          data: {
+            data: rotate,
+          },
+        });
+      });
+
+      $("#btn_3").click(function (e) {
+        e.preventDefault();
+        rotate = "left";
+        $.ajax({
+          type: "POST",
+          url: "/",
+          data: {
+            data: rotate,
+          },
+        });
+      });
+
+      $("#btn_4").click(function (e) {
+        e.preventDefault();
+        rotate = "right";
+        $.ajax({
+          type: "POST",
+          url: "/",
+          data: {
+            data: rotate,
+          },
+        });
+      });
+
+      $("#btn_5").click(function (e) {
+        e.preventDefault();
+        rotate = "forward";
+        $.ajax({
+          type: "POST",
+          url: "/",
+          data: {
+            data: rotate,
+          },
+        });
+      });
+
+      $("#btn_6").click(function (e) {
+        e.preventDefault();
+        rotate = "backward";
+        $.ajax({
+          type: "POST",
+          url: "/",
+          data: {
+            data: rotate,
+          },
+        });
+      });
+    });
+  </script>
+</body>
